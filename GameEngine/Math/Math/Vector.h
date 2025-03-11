@@ -2,18 +2,75 @@
 #define MATH_VECTOR_H
 
 namespace geb {
+	/**
+	* Vector 4
+	*/
 	class Vector {
 	public:
 		Vector();
-		Vector(double x, double y, double z, double w);
+		Vector(float x, float y, float z, float w);
+		Vector(const float* array);
 		Vector(const Vector& v);
 
-		double X() const;
-		double Y() const;
-		double Z() const;
-		double W() const;
+		/**
+		* X value
+		* @return X value
+		*/
+		const float  X() const;
 
-		const double* data() const;
+		/**
+		* X value
+		* @return X value
+		*/
+		      float& X();
+		
+		/**
+		* Y value
+		* @return Y value
+		*/
+		const float  Y() const;
+
+		/**
+		* Y value
+		* @return Y value
+		*/
+		      float& Y();
+
+		/**
+		* Z value
+		* @return Z value
+		*/
+		const float  Z() const;
+
+		/**
+		* Z value
+		* @return Z value
+		*/
+		      float& Z();
+
+		/**
+		* W value
+		* @return W value
+		*/
+		const float  W() const;
+
+		/**
+		* W value
+		* @return W value
+		*/
+		      float& W();
+
+		/**
+		* Vector values array
+		* @return values array
+		*/
+		const float* data() const;
+
+		/**
+		* Vector values array
+		* @return values array
+		*/
+		      float* data();
 
 		Vector& operator= (const Vector& v);
 
@@ -50,21 +107,63 @@ namespace geb {
 		* @param a: Scalar to be multiplied
 		* @return Vector with the product values
 		*/
-		Vector operator* (const double& a) const;
+		Vector operator* (const float& a) const;
 
 		/**
 		* Scalar division
 		* @param a: Scalar to be divided
 		* @return Vector with the division values
 		*/
-		Vector operator/ (const double& a) const;
+		Vector operator/ (const float& a) const;
 
 		/**
-		* Dot product
+		* Vector sum
+		* @param v: Vector to be added
+		* @return This vector with the sum values
+		*/
+		Vector& operator+= (const Vector& v);
+
+		/**
+		* Vector subtraction
+		* @param v: Vector to be subtracted
+		* @return This vector with the subtraction values
+		*/
+		Vector& operator-= (const Vector& v);
+
+		/**
+		* Hadamard product
+		* @param v: Vector to be multiplied
+		* @return This vector with the product values
+		*/
+		Vector& operator*= (const Vector& v);
+
+		/**
+		* Hadamard division
+		* @param v: Vector to be divided
+		* @return This vector with the division values
+		*/
+		Vector& operator/= (const Vector& v);
+
+		/**
+		* Scalar product
+		* @param a: Scalar to be multiplied
+		* @return This vector with the product values
+		*/
+		Vector& operator*= (const float& a);
+
+		/**
+		* Scalar division
+		* @param a: Scalar to be divided
+		* @return This vector with the division values
+		*/
+		Vector& operator/= (const float& a);
+
+		/**
+		* Dot product (Use only if really necessary, this operation is slow [it uses hadd])
 		* @param v: Vector to perform the operation
 		* @return Dot product result
 		*/
-		double dot(const Vector& v) const;
+		float dot(const Vector& v) const;
 
 		/**
 		* Cross product
@@ -77,25 +176,27 @@ namespace geb {
 		* Square norm
 		* @return Square of the norm of the vector
 		*/
-		double square_norm() const;
+		float square_norm() const;
 
 		/**
 		* Norm
 		* @return Norm of the vector
 		*/
-		double norm() const;
+		float norm() const;
 
 	private:
 		union {
 			struct
 			{
-				double _x;
-				double _y;
-				double _z;
-				double _w;
+				float _x;
+				float _y;
+				float _z;
+				float _w;
 			};
-			double _data[4];
+			float _data[4];
 		};
+
+		friend class Matrix;
 	};
 };
 
