@@ -117,4 +117,8 @@ namespace geb {
 		
 		return *this = *this * a;
 	}
+
+	std::ostream& operator <<(std::ostream& os, const Matrix& m) {
+		return os << m._vectors[0] << m._vectors[1] << m._vectors[2] << m._vectors[3];
+	}
 }

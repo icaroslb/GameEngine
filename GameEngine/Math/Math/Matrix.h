@@ -100,8 +100,6 @@ namespace geb {
 		*/
 		Matrix& operator*= (float a);
 	private:
-
-
 		union {
 			struct {
 				float _d0;  float _d1;  float _d2;  float _d3;
@@ -112,7 +110,11 @@ namespace geb {
 			Vector _vectors[4];
 			float _data[16];
 		};
+
+		friend std::ostream& operator <<(std::ostream& os, const Matrix& m);
 	};
+
+	std::ostream& operator <<(std::ostream& os, const Matrix& m);
 };
 
 #endif // MATH_MATRIX_H

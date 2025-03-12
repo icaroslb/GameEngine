@@ -182,4 +182,8 @@ namespace geb {
 
 		return sqrt(result);
 	}
+
+	std::ostream& operator <<(std::ostream& os, const Vector& v) {
+		return os << "[ " << v._x << " " << v._y << " " << v._z << " " << v._w << " ]" << std::endl;
+	}
 };

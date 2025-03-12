@@ -1,6 +1,8 @@
 #ifndef MATH_VECTOR_H
 #define MATH_VECTOR_H
 
+#include <ostream>
+
 namespace geb {
 	/**
 	* Vector 4
@@ -197,7 +199,10 @@ namespace geb {
 		};
 
 		friend class Matrix;
+		friend std::ostream& operator <<(std::ostream& os, const Vector& v);
 	};
+
+	std::ostream& operator <<(std::ostream& os, const Vector& v);
 };
 
 #endif // MATH_VECTOR_H
