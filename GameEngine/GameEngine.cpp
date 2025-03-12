@@ -15,14 +15,14 @@ const int qtd_loops = 10000;
 
 int main()
 {
-	/*geb::Vector v0{ 5.0, 2.0, 3.0, 0.0 };
+	geb::Vector v0{ 5.0, 2.0, 3.0, 0.0 };
 	geb::Vector v1{ 5.0, 2.0, 3.0, 0.0 };
-	geb::Vector v2 = v0.cross(v1);
+	geb::Vector v2 = v0 - v1;
 	double dot = v0.dot(v1);
 
 	std::cout << dot << std::endl;
 
-	std::cout << v2.X() << " " << v2.Y() << " " << v2.Z() << " " << v2.W() << std::endl;*/
+	std::cout << v2.X() << " " << v2.Y() << " " << v2.Z() << " " << v2.W() << std::endl;
 
 	geb::Matrix m0{
 		1.0f,  2.0f,  3.0f,  4.0f,
