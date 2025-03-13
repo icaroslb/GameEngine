@@ -199,6 +199,7 @@ namespace geb {
 		};
 
 		friend class Matrix;
+		friend class Transformation;
 		friend std::ostream& operator <<(std::ostream& os, const Vector& v);
 	};
 

@@ -30,8 +30,16 @@ namespace geb {
 		return _data[column + (4 * line)];
 	}
 
-	float Matrix::operator()(size_t line, size_t column) {
+	float& Matrix::operator()(size_t line, size_t column) {
 		return _data[column + (4 * line)];
+	}
+
+	const float* Matrix::data() const {
+		return _data;
+	}
+
+	float* Matrix::data() {
+		return _data;
 	}
 
 	Matrix& Matrix::operator= (const Matrix& m) {
@@ -116,6 +124,20 @@ namespace geb {
 		}
 		
 		return *this = *this * a;
+	}
+
+	Matrix& Matrix::transpose() {
+		_matrix_transpose(_data, _data);
+		
+		return *this;
+	}
+
+	Matrix Matrix::transposed() {
+		Matrix result;
+
+		_matrix_transpose(_data, result._data);
+
+		return result;
 	}
 
 	std::ostream& operator <<(std::ostream& os, const Matrix& m) {

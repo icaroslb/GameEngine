@@ -21,6 +21,14 @@ namespace geb {
 		: _transformation(tm._transformation)
 		, _i_transformation(tm._i_transformation) {}
 
+	const Matrix& TransformationMatrix::transformation() const {
+		return _transformation;
+	}
+
+	const Matrix& TransformationMatrix::i_transformation() const {
+		return _i_transformation;
+	}
+
 	TransformationMatrix& TransformationMatrix::operator= (const TransformationMatrix& tm) {
 		_transformation = tm._transformation;
 		_i_transformation = tm._i_transformation;

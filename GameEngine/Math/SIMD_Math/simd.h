@@ -8,12 +8,12 @@ namespace geb {
 
 #if defined(__linux__)
 #define SAVE_ARRAY(dst_data, src_data, byte_size) memcpy(dst_data, src_data, byte_size)
-#define SAVE_SCALAR(src_data, scalar) scalar = src_data[0]
+#define SAVE_SCALAR(src_data, id, scalar) scalar = src_data[id]
 #endif
 
 #if defined(_WIN32)
 #define SAVE_ARRAY(dst_data, src_data, byte_size) memcpy(dst_data, src_data.m128_f32, byte_size)
-#define SAVE_SCALAR(src_data, scalar) scalar = src_data.m128_f32[0]
+#define SAVE_SCALAR(src_data, id, scalar) scalar = src_data.m128_f32[id]
 #endif
 
 	const size_t float4_size = sizeof(float) * 4;
@@ -174,7 +174,7 @@ namespace geb {
 		__result = _mm_hadd_ps(__operation, __operation);
 
 		// Save the result in a scalar
-		SAVE_SCALAR(__result, _result);
+		SAVE_SCALAR(__result, 0, _result);
 	}
 
 	/**
@@ -281,6 +281,127 @@ namespace geb {
 		SAVE_ARRAY(_result, __result, float4_size);
 	}
 
+	/**
+	* Matrix transpose
+	* @param _m: Matrix to be transposed
+	* @param _m_result: Matrix returned with transpose values
+	*/
+	inline void _matrix_transpose(const float* _m, float* _m_result) {
+		__m128 __lines[4];
+
+		// Load the values
+		for (int i = 0; i < 4; i++) {
+			__lines[i] = _mm_load_ps((_m + (i * 4)));
+		}
+
+		_MM_TRANSPOSE4_PS(__lines[0], __lines[1], __lines[2], __lines[3]);
+
+		// Save the result in a new vector
+		SAVE_ARRAY(_m_result, &(__lines[0]), float16_size);
+	}
+
+	/**
+	* Matrix quaternion
+	* Generates the matrix of a quaternion rotation
+	* @param _q: Quaternion rotation
+	* @param _m_result: Matrix of the quaternion rotation
+	*/
+	inline void _matrix_quaternion(const float* _q, float* _m_result) {
+		const float _twos[4] = { +2.0f, -2.0f, +2.0f, +2.0f };
+		const float _ones[16] = { 
+			+1.0f, -1.0f, -1.0f, +1.0f,
+			-1.0f, +1.0f, -1.0f, +1.0f,
+			-1.0f, -1.0f, +1.0f, +1.0f,
+			+1.0f, +1.0f, +1.0f, +1.0f };
+		
+		__m128 __q;
+		__m128 __ones[4];
+		__m128 __twos;
+
+		__m128 __result;
+		__m128 __q_others;
+		__m128 __q_mul;
+
+		// Zerates the matrix
+		memset(_m_result, 0, float16_size);
+
+		// Load the values
+		__q = _mm_load_ps(_q);
+
+		for (int i = 0; i < 4; i++) {
+			__ones[i] = _mm_load_ps(_ones + (i * 4));
+		}
+
+		__twos = _mm_load_ps(_twos);
+
+
+		//////////////////////////////
+		// Calculates others values //
+		//////////////////////////////
+
+
+			////////////////////////////
+			// Values [0,1] and [1,0] //
+			////////////////////////////
+		__q_others = _mm_shuffle_ps(__q, __q, _MM_SHUFFLE(3, 0, 3, 0)); // [ x w x w ]
+		__q_mul = _mm_shuffle_ps(__q, __q, _MM_SHUFFLE(2, 1, 2, 1));    // [ y z y z ]
+
+		__q_mul = _mm_mul_ps(__q_others, __q_mul);
+		__q_mul = _mm_mul_ps(__q_mul, __twos);
+		__result = _mm_hadd_ps(__q_mul, __q_mul);
+
+		SAVE_SCALAR(__result, 0, _m_result[1]);
+		SAVE_SCALAR(__result, 1, _m_result[4]);
+
+			////////////////////////////
+			// Values [0,2] and [2,0] //
+			////////////////////////////                                // [ x w x w ]
+		__q_mul = _mm_shuffle_ps(__q, __q, _MM_SHUFFLE(1, 2, 1, 2));    // [ z y z y ]
+
+		__q_mul = _mm_mul_ps(__q_others, __q_mul);
+		__q_mul = _mm_mul_ps(__q_mul, __twos);
+		__result = _mm_hadd_ps(__q_mul, __q_mul);
+
+		SAVE_SCALAR(__result, 0, _m_result[2]);
+		SAVE_SCALAR(__result, 1, _m_result[8]);
+
+			////////////////////////////
+			// Values [1,2] and [2,1] //
+			////////////////////////////
+		__q_others = _mm_shuffle_ps(__q, __q, _MM_SHUFFLE(3, 1, 3, 1)); // [ x w x w ]
+		__q_mul = _mm_shuffle_ps(__q, __q, _MM_SHUFFLE(0, 2, 0, 2));    // [ z x z x ]
+
+		__q_mul = _mm_mul_ps(__q_others, __q_mul);
+		__q_mul = _mm_mul_ps(__q_mul, __twos);
+		__result = _mm_hadd_ps(__q_mul, __q_mul);
+
+		SAVE_SCALAR(__result, 0, _m_result[6]);
+		SAVE_SCALAR(__result, 1, _m_result[9]);
+
+
+		/////////////////////////////
+		// Calculates the diagonal //
+		/////////////////////////////
+
+
+		__q = _mm_mul_ps(__q, __q); // square q
+
+		for (int i = 0; i < 4; i++) {
+			__ones[i] = _mm_mul_ps(__q, __ones[i]);
+		}
+
+		_MM_TRANSPOSE4_PS(__ones[0], __ones[1], __ones[2], __ones[3]);
+
+		__result = _mm_add_ps(__ones[0], __ones[1]);
+		__result = _mm_add_ps(__result, __ones[2]);
+		__result = _mm_add_ps(__result, __ones[3]);
+
+		SAVE_SCALAR(__result, 0, _m_result[0]);
+		SAVE_SCALAR(__result, 1, _m_result[5]);
+		SAVE_SCALAR(__result, 2, _m_result[10]);
+		SAVE_SCALAR(__result, 3, _m_result[15]);
+	}
 };
+
 
 #endif // SIMD_MATH_SIMD_H

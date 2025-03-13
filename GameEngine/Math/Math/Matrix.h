@@ -33,7 +33,19 @@ namespace geb {
 		* @param column: Column position
 		* @return The value from line and column position
 		*/
-		float operator()(size_t line, size_t column);
+		float& operator()(size_t line, size_t column);
+
+		/**
+		* Vector values array
+		* @return values array
+		*/
+		const float* data() const;
+
+		/**
+		* Vector values array
+		* @return values array
+		*/
+		      float* data();
 
 		Matrix& operator= (const Matrix& m);
 
@@ -99,6 +111,18 @@ namespace geb {
 		* @return Matrix with the product values
 		*/
 		Matrix& operator*= (float a);
+
+		/**
+		* Transpose Matrix
+		* @return Matrix transposed
+		*/
+		Matrix& transpose ();
+
+		/**
+		* Matrix transposed
+		* @return New Matrix transposed
+		*/
+		Matrix transposed();
 	private:
 		union {
 			struct {
@@ -111,6 +135,7 @@ namespace geb {
 			float _data[16];
 		};
 
+		friend Transformation;
 		friend std::ostream& operator <<(std::ostream& os, const Matrix& m);
 	};
 
