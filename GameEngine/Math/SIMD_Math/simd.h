@@ -38,7 +38,7 @@ namespace geb {
 		__result = _mm_add_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -60,7 +60,7 @@ namespace geb {
 		__result = _mm_sub_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -82,7 +82,7 @@ namespace geb {
 		__result = _mm_mul_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -104,7 +104,7 @@ namespace geb {
 		__result = _mm_div_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -126,7 +126,7 @@ namespace geb {
 		__result = _mm_mul_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -148,7 +148,7 @@ namespace geb {
 		__result = _mm_div_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -209,7 +209,7 @@ namespace geb {
 		);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -250,7 +250,11 @@ namespace geb {
 		__result[3] = mul_vec_mat(__m0[3], __m1);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, &(__result[0]), float16_size);
+		_mm_store_ps(_result     , __result[0]);
+		_mm_store_ps(_result + 4 , __result[1]);
+		_mm_store_ps(_result + 8 , __result[2]);
+		_mm_store_ps(_result + 12, __result[3]);
+		//SAVE_ARRAY(_result, &(__result[0]), float16_size);
 	}
 
 	/**
@@ -278,7 +282,7 @@ namespace geb {
 		__result = _mm_add_ps(__result, _mm_mul_ps(__lines[3], __v));
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_result, __result, float4_size);
+		_mm_store_ps(_result, __result);
 	}
 
 	/**
@@ -297,7 +301,11 @@ namespace geb {
 		_MM_TRANSPOSE4_PS(__lines[0], __lines[1], __lines[2], __lines[3]);
 
 		// Save the result in a new vector
-		SAVE_ARRAY(_m_result, &(__lines[0]), float16_size);
+		_mm_store_ps(_m_result     , __lines[0]);
+		_mm_store_ps(_m_result + 4 , __lines[1]);
+		_mm_store_ps(_m_result + 8 , __lines[2]);
+		_mm_store_ps(_m_result + 12, __lines[3]);
+		//SAVE_ARRAY(_m_result, &(__lines[0]), float16_size);
 	}
 
 	/**

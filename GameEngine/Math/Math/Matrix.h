@@ -135,7 +135,7 @@ namespace geb {
 			float _data[16];
 		};
 
-		friend Transformation;
+		friend class Transformation;
 		friend std::ostream& operator <<(std::ostream& os, const Matrix& m);
 	};
 
