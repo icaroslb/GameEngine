@@ -23,6 +23,8 @@ namespace geb {
 		*/
 		void use();
 
+		unsigned int GetId();
+
 	private:
 		unsigned int _program_id;
 

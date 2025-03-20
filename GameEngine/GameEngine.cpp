@@ -7,16 +7,25 @@
 #include "Math/Vector.h"
 #include "Math/Matrix.h"
 #include "Math/TransformationMatrix.h"
+#include "Math/Vector2.h"
+
 #include <vector>
 #include <random>
 #include <algorithm>
 #include <chrono>
 #include <limits>
 
+#include <stb/stb_image.h>
+
 #include "Graphic/SDL2App.h"
 #include "Graphic/OpenGLApp.h"
-#include "Graphic/Buffer/VertexBuffer.h"
-#include "Graphic/Buffer/IndexBuffer.h"
+#include "Graphic/Buffer/VAO.h"
+#include "Graphic/Buffer/VBO.h"
+#include "Graphic/Buffer/EBO.h"
+#include "Graphic/Uniform.h"
+#include "Graphic/Texture.h"
+
+#include "Objects/ObjectTexture.h"
 
 const int vectors_size = 10000;
 const int qtd_loops = 10000;
@@ -76,25 +85,53 @@ int main(int argc, char* argv[]) {
 
 	const float sqrt3 = static_cast<float>(sqrt(3.0));
 
-	geb::Vector vertices[] =
+	/*geb::Vector vertices[] =
 	{
-		geb::Vector(-0.5f , -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f),
-		geb::Vector(+0.5f , -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f),
-		geb::Vector(+0.0f , +0.5f * sqrt3 * 2.0f / 3.0f, 0.0f, 1.0f),
-		geb::Vector(-0.25f, +0.5f * sqrt3 / 6.0f       , 0.0f, 1.0f),
-		geb::Vector(+0.25f, +0.5f * sqrt3 / 6.0f       , 0.0f, 1.0f),
-		geb::Vector(+0.0f,  -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f)
+		geb::Vector(-0.5f , -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f), geb::Vector(0.8f, 0.3f , 0.02f, 1.0f),
+		geb::Vector(+0.5f , -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f), geb::Vector(0.8f, 0.3f , 0.02f, 1.0f),
+		geb::Vector(+0.0f , +0.5f * sqrt3 * 2.0f / 3.0f, 0.0f, 1.0f), geb::Vector(1.0f, 0.6f , 0.32f, 1.0f),
+		geb::Vector(-0.25f, +0.5f * sqrt3 / 6.0f       , 0.0f, 1.0f), geb::Vector(0.9f, 0.45f, 0.17f, 1.0f),
+		geb::Vector(+0.25f, +0.5f * sqrt3 / 6.0f       , 0.0f, 1.0f), geb::Vector(0.9f, 0.45f, 0.17f, 1.0f),
+		geb::Vector(+0.0f,  -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f), geb::Vector(0.8f, 0.3f , 0.02f, 1.0f)
+	};*/
+
+	geb::ObjectTexture vertices[] =
+	{
+		geb::ObjectTexture(geb::Vector(-0.5f, -0.5f, 0.0f, 1.0f), geb::Vector(1.0f, 0.0f, 0.0f, 1.0f), geb::Vector2(0.0f, 0.0f)),
+		geb::ObjectTexture(geb::Vector(-0.5f, +0.5f, 0.0f, 1.0f), geb::Vector(0.0f, 1.0f, 0.0f, 1.0f), geb::Vector2(0.0f, 1.0f)),
+		geb::ObjectTexture(geb::Vector(+0.5f, +0.5f, 0.0f, 1.0f), geb::Vector(0.0f, 0.0f, 1.0f, 1.0f), geb::Vector2(1.0f, 1.0f)),
+		geb::ObjectTexture(geb::Vector(+0.5f, -0.5f, 0.0f, 1.0f), geb::Vector(1.0f, 1.0f, 1.0f, 1.0f), geb::Vector2(1.0f, 0.0f))
 	};
 
 	unsigned int indices[] =
 	{
-		0, 3, 5,
-		3, 2, 4,
-		5, 4, 1
+		0, 2, 1,
+		0, 3, 2
 	};
 
 	std::shared_ptr<geb::ShaderProgram> sp = geb::OpenGLApp::create_shader_program("Shader/simple_shader.vert", "Shader/simple_shader.frag");
-	geb::IndexBuffer vb{ (float*) & vertices, indices, sizeof(vertices), sizeof(indices) };
+	geb::VAO vao{};
+	vao.bind();
+
+	geb::VBO vbo{ (float*)&vertices, sizeof(vertices) };
+
+	geb::EBO ebo{ indices, sizeof(indices) };
+
+	vao.link_vbo(&vbo, 0, geb::ObjectTexture::GetdataSize(0), geb::FLOAT, geb::ObjectTexture::GetSize(), geb::ObjectTexture::GetOffsets(0));
+	vao.link_vbo(&vbo, 1, geb::ObjectTexture::GetdataSize(1), geb::FLOAT, geb::ObjectTexture::GetSize(), geb::ObjectTexture::GetOffsets(1));
+	vao.link_vbo(&vbo, 2, geb::ObjectTexture::GetdataSize(2), geb::FLOAT, geb::ObjectTexture::GetSize(), geb::ObjectTexture::GetOffsets(2));
+	vao.unbind();
+	vbo.unbind();
+	ebo.unbind();
+
+	unsigned int scale_location = geb::Uniform::get_uniform_location(sp->GetId(), "scale");
+	unsigned int texture_location = geb::Uniform::get_uniform_location(sp->GetId(), "tex0");
+
+	geb::Texture texture;
+	texture.GenerateTexture(
+		"Gentleman.png", geb::TexId::TEXTURE0,
+		geb::Filter::NEAREST, geb::Filter::NEAREST,
+		geb::TexRepeat::CLAMP_TO_BORDER, geb::TexRepeat::CLAMP_TO_BORDER, geb::Vector(0.0f, 0.0f, 0.0f, 1.0f));
 
 	while (is_looping) {
 		while (SDL_PollEvent(&e)) {
@@ -105,13 +142,16 @@ int main(int argc, char* argv[]) {
 		}
 
 		sp->use();
+		geb::Uniform::set_uniform_f(scale_location, 0.5f);
+		geb::Uniform::set_uniform_i(texture_location, 0);
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		vb.BindBuffer();
+		vao.bind();
 
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		texture.bind();
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		sdl_app.SwapWindow();
 	}

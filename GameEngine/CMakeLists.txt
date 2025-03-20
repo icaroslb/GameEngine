@@ -5,6 +5,7 @@
 add_subdirectory(Libraries)
 add_subdirectory(Math)
 add_subdirectory(Graphic)
+add_subdirectory(Objects)
 
 # Adicione a origem ao executável deste projeto.
 if (LINUX)
@@ -16,7 +17,7 @@ if (WIN32)
 endif()
 
 
-target_link_libraries(GameEngine Math Graphic)
+target_link_libraries(GameEngine Math Graphic stb Objects)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET GameEngine PROPERTY CXX_STANDARD 20)

@@ -16,6 +16,7 @@ namespace geb {
 #define SAVE_SCALAR(src_data, id, scalar) scalar = src_data.m128_f32[id]
 #endif
 
+	const size_t float2_size = sizeof(float) * 2;
 	const size_t float4_size = sizeof(float) * 4;
 	const size_t float16_size = sizeof(float) * 16;
 

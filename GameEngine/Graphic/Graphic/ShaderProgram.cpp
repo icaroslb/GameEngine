@@ -42,4 +42,8 @@ namespace geb {
 		glUseProgram(_program_id);
 	}
 
+	unsigned int ShaderProgram::GetId() {
+		return _program_id;
+	}
+
 };
