@@ -26,7 +26,7 @@ namespace geb {
 	* @param _v1: Vector to be added
 	* @param _result: Vector returned with the sum values
 	*/
-	inline void _vector_sum(const float* _v0, const float* _v1, float* _result) {
+	inline void _vector4_sum(const float* _v0, const float* _v1, float* _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __result;
@@ -39,7 +39,29 @@ namespace geb {
 		__result = _mm_add_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		_mm_store_ps(_result, __result);
+		SAVE_ARRAY(_result, __result, float2_size);
+	}
+
+	/**
+	* Vector sum
+	* @param _v0: Vector to be added
+	* @param _v1: Vector to be added
+	* @param _result: Vector returned with the sum values
+	*/
+	inline void _vector2_sum(const float* _v0, const float* _v1, float* _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set_ps(0.0f, 0.0f, _v1[1], _v1[0]);
+
+		// Perform the operation
+		__result = _mm_add_ps(__v0, __v1);
+
+		// Save the result in a new vector
+		SAVE_ARRAY(_result, __result, float2_size);
 	}
 
 	/**
@@ -48,7 +70,7 @@ namespace geb {
 	* @param _v1: Vector to be subtracted
 	* @param _result: Vector returned with the sub values
 	*/
-	inline void _vector_sub(const float* _v0, const float* _v1, float* _result) {
+	inline void _vector4_sub(const float* _v0, const float* _v1, float* _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __result;
@@ -65,12 +87,34 @@ namespace geb {
 	}
 
 	/**
+	* Vector sub
+	* @param _v0: Vector to be subtracted
+	* @param _v1: Vector to be subtracted
+	* @param _result: Vector returned with the sub values
+	*/
+	inline void _vector2_sub(const float* _v0, const float* _v1, float* _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set_ps(0.0f, 0.0f, _v1[1], _v1[0]);
+
+		// Perform the operation
+		__result = _mm_sub_ps(__v0, __v1);
+
+		// Save the result in a new vector
+		SAVE_ARRAY(_result, __result, float2_size);
+	}
+
+	/**
 	* Vector mul
 	* @param _v0: Vector to be multiplied
 	* @param _v1: Vector to be multiplied
 	* @param _result: Vector returned with the mul values
 	*/
-	inline void _vector_mul(const float* _v0, const float* _v1, float* _result) {
+	inline void _vector4_mul(const float* _v0, const float* _v1, float* _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __result;
@@ -81,6 +125,50 @@ namespace geb {
 
 		// Perform the operation
 		__result = _mm_mul_ps(__v0, __v1);
+
+		// Save the result in a new vector
+		_mm_store_ps(_result, __result);
+	}
+
+	/**
+	* Vector mul
+	* @param _v0: Vector to be multiplied
+	* @param _v1: Vector to be multiplied
+	* @param _result: Vector returned with the mul values
+	*/
+	inline void _vector2_mul(const float* _v0, const float* _v1, float* _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set_ps(0.0f, 0.0f, _v1[1], _v1[0]);
+
+		// Perform the operation
+		__result = _mm_mul_ps(__v0, __v1);
+
+		// Save the result in a new vector
+		SAVE_ARRAY(_result, __result, float2_size);
+	}
+
+	/**
+	* Vector div
+	* @param _v0: Vector to be divied
+	* @param _v1: Vector to be divied
+	* @param _result: Vector returned with the div values
+	*/
+	inline void _vector4_div(const float* _v0, const float* _v1, float* _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_load_ps(_v0);
+		__v1 = _mm_load_ps(_v1);
+
+		// Perform the operation
+		__result = _mm_div_ps(__v0, __v1);
 
 		// Save the result in a new vector
 		_mm_store_ps(_result, __result);
@@ -92,20 +180,20 @@ namespace geb {
 	* @param _v1: Vector to be divied
 	* @param _result: Vector returned with the div values
 	*/
-	inline void _vector_div(const float* _v0, const float* _v1, float* _result) {
+	inline void _vector2_div(const float* _v0, const float* _v1, float* _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __result;
 
 		// Load the values
-		__v0 = _mm_load_ps(_v0);
-		__v1 = _mm_load_ps(_v1);
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set_ps(0.0f, 0.0f, _v1[1], _v1[0]);
 
 		// Perform the operation
 		__result = _mm_div_ps(__v0, __v1);
 
 		// Save the result in a new vector
-		_mm_store_ps(_result, __result);
+		SAVE_ARRAY(_result, __result, float2_size);
 	}
 
 	/**
@@ -114,7 +202,7 @@ namespace geb {
 	* @param _a: Scalar to be multiplied
 	* @param _result: Vector returned with the mul values
 	*/
-	inline void _vector_mul_scalar(const float* _v0, const float& _a, float* _result) {
+	inline void _vector4_mul_scalar(const float* _v0, const float& _a, float* _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __result;
@@ -131,12 +219,34 @@ namespace geb {
 	}
 
 	/**
+	* Vector mul scalar
+	* @param _v0: Vector to be multiplied
+	* @param _a: Scalar to be multiplied
+	* @param _result: Vector returned with the mul values
+	*/
+	inline void _vector2_mul_scalar(const float* _v0, const float& _a, float* _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set1_ps(_a);
+
+		// Perform the operation
+		__result = _mm_mul_ps(__v0, __v1);
+
+		// Save the result in a new vector
+		SAVE_ARRAY(_result, __result, float2_size);
+	}
+
+	/**
 	* Vector div scalar
 	* @param _v0: Vector to be divided
 	* @param _a: Scalar to be divided
 	* @param _result: Vector returned with the div values
 	*/
-	inline void _vector_div_scalar(const float* _v0, const float& _a, float* _result) {
+	inline void _vector4_div_scalar(const float* _v0, const float& _a, float* _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __result;
@@ -153,12 +263,34 @@ namespace geb {
 	}
 
 	/**
+	* Vector div scalar
+	* @param _v0: Vector to be divided
+	* @param _a: Scalar to be divided
+	* @param _result: Vector returned with the div values
+	*/
+	inline void _vector2_div_scalar(const float* _v0, const float& _a, float* _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set1_ps(_a);
+
+		// Perform the operation
+		__result = _mm_div_ps(__v0, __v1);
+
+		// Save the result in a new vector
+		SAVE_ARRAY(_result, __result, float2_size);
+	}
+
+	/**
 	* Dot product
 	* @param _v0: Vector to perform the operation
 	* @param _v1: Vector to perform the operation
 	* @param _result: Dot product result
 	*/
-	inline void _vector_dot(const float* _v0, const float* _v1, float& _result) {
+	inline void _vector4_dot(const float* _v0, const float* _v1, float& _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __operation;
@@ -179,12 +311,37 @@ namespace geb {
 	}
 
 	/**
+	* Dot product
+	* @param _v0: Vector to perform the operation
+	* @param _v1: Vector to perform the operation
+	* @param _result: Dot product result
+	*/
+	inline void _vector2_dot(const float* _v0, const float* _v1, float& _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __operation;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set_ps(0.0f, 0.0f, _v1[1], _v1[0]);
+
+		// Perform the operation
+		__operation = _mm_mul_ps(__v0, __v1);
+
+		__result = _mm_hadd_ps(__operation, __operation);
+
+		// Save the result in a scalar
+		SAVE_SCALAR(__result, 0, _result);
+	}
+
+	/**
 	* Cross product
 	* @param _v0: Vector to perform the operation
 	* @param _v1: Vector to perform the operation
 	* @param _result: Cross product result
 	*/
-	inline void _vector_cross(const float* _v0, const float* _v1, float* _result) {
+	inline void _vector4_cross(const float* _v0, const float* _v1, float* _result) {
 		__m128 __v0;
 		__m128 __v1;
 		__m128 __result;
@@ -214,12 +371,35 @@ namespace geb {
 	}
 
 	/**
+	* Cross product
+	* @param _v0: Vector to perform the operation
+	* @param _v1: Vector to perform the operation
+	* @param _result: Cross product result
+	*/
+	inline void _vector2_cross(const float* _v0, const float* _v1, float& _result) {
+		__m128 __v0;
+		__m128 __v1;
+		__m128 __result;
+
+		// Load the values
+		__v0 = _mm_set_ps(0.0f, 0.0f, _v0[1], _v0[0]);
+		__v1 = _mm_set_ps(0.0f, 0.0f, _v1[0], _v1[1]);
+
+		// Perform the operation
+		__result = _mm_mul_ps(__v0, __v1);
+		__result = _mm_hsub_ps(__result, __result);
+
+		// Save the result in a scalar
+		SAVE_SCALAR(__result, 0, _result);
+	}
+
+	/**
 	* Matrix product
 	* @param _m0: Matrix to be multiplied
 	* @param _m1: Matrix to be multiplied
 	* @param _result: Matrix returned with the product values
 	*/
-	inline void _matrix_mul(const float* _m0, const float* _m1, float* _result) {
+	inline void _matrix4x4_mul(const float* _m0, const float* _m1, float* _result) {
 		__m128 __m0[4];
 		__m128 __m1[4];
 		__m128 __result[4];
@@ -264,7 +444,7 @@ namespace geb {
 	* @param _v: Vector to be multiplied
 	* @param _result: Vector returned with the product values
 	*/
-	inline void _matrix_vector_mul(const float* _m, const float* _v, float* _result) {
+	inline void _matrix4x4_vector4_mul(const float* _m, const float* _v, float* _result) {
 		__m128 __lines[4];
 		__m128 __v;
 		__m128 __result;
@@ -291,7 +471,7 @@ namespace geb {
 	* @param _m: Matrix to be transposed
 	* @param _m_result: Matrix returned with transpose values
 	*/
-	inline void _matrix_transpose(const float* _m, float* _m_result) {
+	inline void _matrix4x4_transpose(const float* _m, float* _m_result) {
 		__m128 __lines[4];
 
 		// Load the values
@@ -315,7 +495,7 @@ namespace geb {
 	* @param _q: Quaternion rotation
 	* @param _m_result: Matrix of the quaternion rotation
 	*/
-	inline void _matrix_quaternion(const float* _q, float* _m_result) {
+	inline void _matrix4x4_quaternion(const float* _q, float* _m_result) {
 		const float _twos[4] = { +2.0f, -2.0f, +2.0f, +2.0f };
 		const float _ones[16] = { 
 			+1.0f, -1.0f, -1.0f, +1.0f,

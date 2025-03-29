@@ -14,14 +14,14 @@ namespace geb {
 		glDeleteTextures(1, &_texture_id);
 	}
 
-	void Texture::GenerateTexture(const char* image_path, TexId tex_id, Filter min_filter, Filter mag_filter, TexRepeat s_repeat, TexRepeat t_repeat, Vector border_color) {
+	void Texture::GenerateTexture(const char* image_path, TexId tex_id, Filter min_filter, Filter mag_filter, TexRepeat s_repeat, TexRepeat t_repeat, Vector4 border_color) {
 		// Fli the image
 		stbi_set_flip_vertically_on_load(true);
 		int img_width;
 		int img_height;
 		int channels;
 		// Load it
-		unsigned char* texture_data = stbi_load(image_path, &img_width, &img_height, &channels, 0);
+		unsigned char* texture_data = stbi_load(image_path, &img_width, &img_height, &channels, STBI_rgb_alpha);
 
 		// Activate the texture
 		glActiveTexture(tex_id);

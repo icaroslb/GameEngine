@@ -8,6 +8,8 @@
 
 namespace geb {
 
+	typedef void* (*ProcAddress)(const char*);
+
 	class OpenGLApp {
 	public:
 		/**
@@ -15,7 +17,7 @@ namespace geb {
 		* Initialized the Opengl
 		* @param proc: Method to get Opengl functions by name
 		*/
-		static void init(GLADloadproc proc);
+		static void init(ProcAddress proc);
 
 		/**
 		* create_shader_program

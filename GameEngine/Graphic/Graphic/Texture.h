@@ -1,7 +1,7 @@
 #ifndef GRAPHIC_TEXTURE_H
 #define GRAPHIC_TEXTURE_H
 
-#include <Math/Vector.h>
+#include <Math/Vector4.h>
 
 namespace geb {
 	enum TexId {
@@ -72,7 +72,7 @@ namespace geb {
 		void GenerateTexture(
 			const char* image_path, TexId tex_id,
 			Filter min_filter, Filter mag_filter,
-			TexRepeat s_repeat, TexRepeat t_repeat, Vector border_color = Vector(0.0f, 0.0f, 0.0f, 1.0f));
+			TexRepeat s_repeat, TexRepeat t_repeat, Vector4 border_color = Vector4(0.0f, 0.0f, 0.0f, 1.0f));
 
 		void bind();
 		void unbind();

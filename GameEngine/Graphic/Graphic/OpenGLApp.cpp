@@ -5,7 +5,7 @@
 
 namespace geb {
 
-	void OpenGLApp::init(GLADloadproc proc) {
+	void OpenGLApp::init(void* (*proc)(const char*)) {
 		gladLoadGLLoader(proc);
 
 		std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl

@@ -4,8 +4,8 @@
 #include <cmath>
 
 namespace geb {
-	TransformationMatrix Transformation::Translation(float x, float y, float z) {
-		TransformationMatrix result;
+	TransformationMatrix4x4 Transformation::Translation(float x, float y, float z) {
+		TransformationMatrix4x4 result;
 
 		result._transformation(0, 3) = x;
 		result._transformation(1, 3) = y;
@@ -18,8 +18,8 @@ namespace geb {
 		return result;
 	}
 
-	TransformationMatrix Transformation::Scale(float x, float y, float z) {
-		TransformationMatrix result;
+	TransformationMatrix4x4 Transformation::Scale(float x, float y, float z) {
+		TransformationMatrix4x4 result;
 
 		result._transformation(0, 0) = x;
 		result._transformation(1, 1) = y;
@@ -32,8 +32,8 @@ namespace geb {
 		return result;
 	}
 
-	TransformationMatrix Transformation::EulerRotation_x(float angle) {
-		TransformationMatrix result;
+	TransformationMatrix4x4 Transformation::EulerRotation_x(float angle) {
+		TransformationMatrix4x4 result;
 
 		float cos_angle = cos(angle);
 		float sin_angle = sin(angle);
@@ -51,8 +51,8 @@ namespace geb {
 		return result;
 	}
 
-	TransformationMatrix Transformation::EulerRotation_y(float angle) {
-		TransformationMatrix result;
+	TransformationMatrix4x4 Transformation::EulerRotation_y(float angle) {
+		TransformationMatrix4x4 result;
 
 		float cos_angle = cos(angle);
 		float sin_angle = sin(angle);
@@ -70,8 +70,8 @@ namespace geb {
 		return result;
 	}
 
-	TransformationMatrix Transformation::EulerRotation_z(float angle) {
-		TransformationMatrix result;
+	TransformationMatrix4x4 Transformation::EulerRotation_z(float angle) {
+		TransformationMatrix4x4 result;
 
 		float cos_angle = cos(angle);
 		float sin_angle = sin(angle);
@@ -89,10 +89,10 @@ namespace geb {
 		return result;
 	}
 
-	TransformationMatrix Transformation::QuaternionRotation(const Vector &axis, float angle) {
-		TransformationMatrix tm_result;
-		Vector quaternion;
-		Vector i_quaternion;
+	TransformationMatrix4x4 Transformation::QuaternionRotation(const Vector4 &axis, float angle) {
+		TransformationMatrix4x4 tm_result;
+		Vector4 quaternion;
+		Vector4 i_quaternion;
 		const float half_angle = angle / 2.0f;
 		const float i_half_angle = -half_angle;
 
@@ -102,8 +102,8 @@ namespace geb {
 		i_quaternion = axis * sin(i_half_angle);
 		i_quaternion._w = cos(i_half_angle);
 		
-		_matrix_quaternion(quaternion._data, tm_result._transformation._data);
-		_matrix_quaternion(i_quaternion._data, tm_result._i_transformation._data);
+		_matrix4x4_quaternion(quaternion._data, tm_result._transformation._data);
+		_matrix4x4_quaternion(i_quaternion._data, tm_result._i_transformation._data);
 
 		return tm_result;
 	}

@@ -1,14 +1,14 @@
-#include "Matrix.h"
+#include "Matrix4x4.h"
 #include "SIMD_Math/simd.h"
 
 #include <algorithm>
 
 namespace geb {
-	Matrix::Matrix() {
+	Matrix4x4::Matrix4x4() {
 		std::fill_n(_data, 16, 0.0);
 	}
 
-	Matrix::Matrix(
+	Matrix4x4::Matrix4x4(
 		float v0, float v1, float v2, float v3,
 		float v4, float v5, float v6, float v7,
 		float v8, float v9, float v10, float v11,
@@ -18,31 +18,31 @@ namespace geb {
 	, _d8(v8),   _d9(v9),   _d10(v10), _d11(v11) 
 	, _d12(v12), _d13(v13), _d14(v14), _d15(v15) {}
 	
-	Matrix::Matrix(const float* array) {
+	Matrix4x4::Matrix4x4(const float* array) {
 		memcpy(_data, array, float16_size);
 	}
 
-	Matrix::Matrix(const Matrix& m) {
+	Matrix4x4::Matrix4x4(const Matrix4x4& m) {
 		memcpy(_data, m._data, float16_size);
 	}
 
-	const float Matrix::operator()(size_t line, size_t column) const {
+	const float Matrix4x4::operator()(size_t line, size_t column) const {
 		return _data[column + (4 * line)];
 	}
 
-	float& Matrix::operator()(size_t line, size_t column) {
+	float& Matrix4x4::operator()(size_t line, size_t column) {
 		return _data[column + (4 * line)];
 	}
 
-	const float* Matrix::data() const {
+	const float* Matrix4x4::data() const {
 		return _data;
 	}
 
-	float* Matrix::data() {
+	float* Matrix4x4::data() {
 		return _data;
 	}
 
-	Matrix& Matrix::operator= (const Matrix& m) {
+	Matrix4x4& Matrix4x4::operator= (const Matrix4x4& m) {
 		if (this != &m) {
 			memcpy(_data, m._data, float16_size);
 		}
@@ -50,8 +50,8 @@ namespace geb {
 		return *this;
 	}
 
-	Matrix Matrix::operator+ (const Matrix& m) const {
-		Matrix result;
+	Matrix4x4 Matrix4x4::operator+ (const Matrix4x4& m) const {
+		Matrix4x4 result;
 
 		for (int i = 0; i < 4; i++) {
 			result._vectors[i] = _vectors[i] + m._vectors[i];
@@ -60,8 +60,8 @@ namespace geb {
 		return result;
 	}
 
-	Matrix Matrix::operator- (const Matrix& m) const {
-		Matrix result;
+	Matrix4x4 Matrix4x4::operator- (const Matrix4x4& m) const {
+		Matrix4x4 result;
 
 		for (int i = 0; i < 4; i++) {
 			result._vectors[i] = _vectors[i] - m._vectors[i];
@@ -70,24 +70,24 @@ namespace geb {
 		return result;
 	}
 
-	Matrix Matrix::operator* (const Matrix& m) const {
-		Matrix result;
+	Matrix4x4 Matrix4x4::operator* (const Matrix4x4& m) const {
+		Matrix4x4 result;
 
-		_matrix_mul(_data, m._data, result._data);
-
-		return result;
-	}
-
-	Vector Matrix::operator* (const Vector& v) const {
-		Vector result;
-
-		_matrix_vector_mul(_data, v._data, result._data);
+		_matrix4x4_mul(_data, m._data, result._data);
 
 		return result;
 	}
 
-	Matrix Matrix::operator* (float a) const {
-		Matrix result;
+	Vector4 Matrix4x4::operator* (const Vector4& v) const {
+		Vector4 result;
+
+		_matrix4x4_vector4_mul(_data, v._data, result._data);
+
+		return result;
+	}
+
+	Matrix4x4 Matrix4x4::operator* (float a) const {
+		Matrix4x4 result;
 
 		for (int i = 0; i < 4; i++) {
 			result._vectors[i] = _vectors[i] * a;
@@ -96,7 +96,7 @@ namespace geb {
 		return result;
 	}
 
-	Matrix& Matrix::operator+= (const Matrix& m) {
+	Matrix4x4& Matrix4x4::operator+= (const Matrix4x4& m) {
 		for (int i = 0; i < 4; i++) {
 			_vectors[i] = _vectors[i] + m._vectors[i];
 		}
@@ -104,7 +104,7 @@ namespace geb {
 		return *this;
 	}
 
-	Matrix& Matrix::operator-= (const Matrix& m) {
+	Matrix4x4& Matrix4x4::operator-= (const Matrix4x4& m) {
 		for (int i = 0; i < 4; i++) {
 			_vectors[i] = _vectors[i] - m._vectors[i];
 		}
@@ -112,13 +112,13 @@ namespace geb {
 		return *this;
 	}
 
-	Matrix& Matrix::operator*= (const Matrix& m) {
-		_matrix_mul(_data, m._data, _data);
+	Matrix4x4& Matrix4x4::operator*= (const Matrix4x4& m) {
+		_matrix4x4_mul(_data, m._data, _data);
 		
 		return *this;
 	}
 
-	Matrix& Matrix::operator*= (float a) {
+	Matrix4x4& Matrix4x4::operator*= (float a) {
 		for (int i = 0; i < 4; i++) {
 			_vectors[i] = _vectors[i] * a;
 		}
@@ -126,21 +126,21 @@ namespace geb {
 		return *this = *this * a;
 	}
 
-	Matrix& Matrix::transpose() {
-		_matrix_transpose(_data, _data);
+	Matrix4x4& Matrix4x4::transpose() {
+		_matrix4x4_transpose(_data, _data);
 		
 		return *this;
 	}
 
-	Matrix Matrix::transposed() {
-		Matrix result;
+	Matrix4x4 Matrix4x4::transposed() {
+		Matrix4x4 result;
 
-		_matrix_transpose(_data, result._data);
+		_matrix4x4_transpose(_data, result._data);
 
 		return result;
 	}
 
-	std::ostream& operator <<(std::ostream& os, const Matrix& m) {
+	std::ostream& operator <<(std::ostream& os, const Matrix4x4& m) {
 		return os << m._vectors[0] << m._vectors[1] << m._vectors[2] << m._vectors[3];
 	}
 }

@@ -1,7 +1,7 @@
 #include "ObjectTexture.h"
 
 namespace geb {
-	ObjectTexture::ObjectTexture(Vector position, Vector color, Vector2 tex)
+	ObjectTexture::ObjectTexture(Vector4 position, Vector4 color, Vector2 tex)
 		: _position(position)
 		, _color(color)
 		, _tex(tex)
@@ -55,10 +55,10 @@ namespace geb {
 			offset = (void*)0;
 			break;
 		case 1:
-			offset = (void*)sizeof(Vector);
+			offset = (void*)sizeof(Vector4);
 			break;
 		case 2:
-			offset = (void*)(2 * sizeof(Vector));
+			offset = (void*)(2 * sizeof(Vector4));
 			break;
 		default:
 			offset = (void*)0;
