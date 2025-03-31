@@ -399,7 +399,7 @@ namespace geb {
 	* @param _m1: Matrix to be multiplied
 	* @param _result: Matrix returned with the product values
 	*/
-	inline void _matrix4x4_mul(const float* _m0, const float* _m1, float* _result) {
+	inline void _matrix4_mul(const float* _m0, const float* _m1, float* _result) {
 		__m128 __m0[4];
 		__m128 __m1[4];
 		__m128 __result[4];
@@ -444,7 +444,7 @@ namespace geb {
 	* @param _v: Vector to be multiplied
 	* @param _result: Vector returned with the product values
 	*/
-	inline void _matrix4x4_vector4_mul(const float* _m, const float* _v, float* _result) {
+	inline void _matrix4_vector4_mul(const float* _m, const float* _v, float* _result) {
 		__m128 __lines[4];
 		__m128 __v;
 		__m128 __result;
@@ -471,7 +471,7 @@ namespace geb {
 	* @param _m: Matrix to be transposed
 	* @param _m_result: Matrix returned with transpose values
 	*/
-	inline void _matrix4x4_transpose(const float* _m, float* _m_result) {
+	inline void _matrix4_transpose(const float* _m, float* _m_result) {
 		__m128 __lines[4];
 
 		// Load the values
@@ -495,7 +495,7 @@ namespace geb {
 	* @param _q: Quaternion rotation
 	* @param _m_result: Matrix of the quaternion rotation
 	*/
-	inline void _matrix4x4_quaternion(const float* _q, float* _m_result) {
+	inline void _matrix4_quaternion(const float* _q, float* _m_result) {
 		const float _twos[4] = { +2.0f, -2.0f, +2.0f, +2.0f };
 		const float _ones[16] = { 
 			+1.0f, -1.0f, -1.0f, +1.0f,

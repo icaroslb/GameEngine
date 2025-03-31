@@ -8,6 +8,11 @@ namespace geb {
 	void OpenGLApp::init(void* (*proc)(const char*)) {
 		gladLoadGLLoader(proc);
 
+		glEnable(GL_DEPTH_TEST);
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+
 		std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl
 			<< "Renderer: " << glGetString(GL_RENDERER) << std::endl
 			<< "Version: " << glGetString(GL_VERSION) << std::endl;

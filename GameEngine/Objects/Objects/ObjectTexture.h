@@ -7,7 +7,7 @@
 namespace geb {
 	class ObjectTexture {
 	public:
-		ObjectTexture(Vector4 position, Vector4 color, Vector2 tex);
+		ObjectTexture(const Vector4& position, const Vector4& color, const Vector2& tex);
 		ObjectTexture(const ObjectTexture& ot);
 
 		ObjectTexture& operator=(const ObjectTexture& ot);

@@ -186,6 +186,8 @@ namespace geb {
 		*/
 		float norm() const;
 
+		Vector4& normalized();
+
 	private:
 		union {
 			struct
@@ -198,12 +200,16 @@ namespace geb {
 			float _data[4];
 		};
 
-		friend class Matrix4x4;
+		friend class Matrix4;
 		friend class Transformation;
 		friend std::ostream& operator <<(std::ostream& os, const Vector4& v);
+		friend Vector4 operator -(const Vector4& v);
+		friend Vector4 operator +(const Vector4& v);
 	};
 
 	std::ostream& operator <<(std::ostream& os, const Vector4& v);
+	Vector4 operator -(const Vector4& v);
+	Vector4 operator +(const Vector4& v);
 };
 
 #endif // MATH_VECTOR4_H

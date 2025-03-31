@@ -1,7 +1,7 @@
 #include "ObjectTexture.h"
 
 namespace geb {
-	ObjectTexture::ObjectTexture(Vector4 position, Vector4 color, Vector2 tex)
+	ObjectTexture::ObjectTexture(const Vector4& position, const Vector4& color, const Vector2& tex)
 		: _position(position)
 		, _color(color)
 		, _tex(tex)

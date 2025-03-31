@@ -6,7 +6,7 @@
 
 namespace geb {
 	Vector2::Vector2() {
-		std::fill_n(_data, 2, 0.0);
+		std::fill_n(_data, 2, 0.0f);
 	}
 
 	Vector2::Vector2(float x, float y) : _x(x), _y(y) {}

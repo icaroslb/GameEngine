@@ -1,7 +1,7 @@
 #ifndef MATH_TRANSFORMATION_H
 #define MATH_TRANSFORMATION_H
 
-#include "TransformationMatrix4x4.h"
+#include "TransformationMatrix4.h"
 
 namespace geb {
 
@@ -15,7 +15,7 @@ namespace geb {
 		* @param z: Translation in z
 		* @return Translation transformation matrix
 		*/
-		static TransformationMatrix4x4 Translation(float x, float y, float z);
+		static TransformationMatrix4 Translation(float x, float y, float z);
 
 		/**
 		* Scale
@@ -25,7 +25,7 @@ namespace geb {
 		* @param z: Scale in z
 		* @return Scale transformation matrix
 		*/
-		static TransformationMatrix4x4 Scale(float x, float y, float z);
+		static TransformationMatrix4 Scale(float x, float y, float z);
 
 		/**
 		* Euler rotation in x
@@ -33,7 +33,7 @@ namespace geb {
 		* @param angle: Rotation angle in rad
 		* @return Rotation transformation matrix
 		*/
-		static TransformationMatrix4x4 EulerRotation_x(float angle);
+		static TransformationMatrix4 EulerRotation_x(float angle);
 
 		/**
 		* Euler rotation in y
@@ -41,7 +41,7 @@ namespace geb {
 		* @param angle: Rotation angle in rad
 		* @return Rotation transformation matrix
 		*/
-		static TransformationMatrix4x4 EulerRotation_y(float angle);
+		static TransformationMatrix4 EulerRotation_y(float angle);
 
 		/**
 		* Euler rotation in z
@@ -49,7 +49,7 @@ namespace geb {
 		* @param angle: Rotation angle in rad
 		* @return Rotation transformation matrix
 		*/
-		static TransformationMatrix4x4 EulerRotation_z(float angle);
+		static TransformationMatrix4 EulerRotation_z(float angle);
 
 		/**
 		* Quaternion rotation
@@ -58,7 +58,7 @@ namespace geb {
 		* @param angle: Rotation angle in rad
 		* @return Rotation transformation matrix
 		*/
-		static TransformationMatrix4x4 QuaternionRotation(const Vector4& axis, float angle);
+		static TransformationMatrix4 QuaternionRotation(const Vector4& axis, float angle);
 
 	private:
 		Transformation() = delete;

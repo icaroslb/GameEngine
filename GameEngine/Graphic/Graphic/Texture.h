@@ -2,6 +2,7 @@
 #define GRAPHIC_TEXTURE_H
 
 #include <Math/Vector4.h>
+#include <Math/Vector2.h>
 
 namespace geb {
 	enum TexId {
@@ -76,8 +77,11 @@ namespace geb {
 
 		void bind();
 		void unbind();
+
+		Vector2 GetResolution();
 	private:
 		unsigned int _texture_id;
+		Vector2 _resolution;
 	};
 };
 

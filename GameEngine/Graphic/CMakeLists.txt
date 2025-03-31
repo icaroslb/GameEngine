@@ -7,7 +7,7 @@ add_library(Graphic
 	  "Graphic/ShaderProgram.h" "Graphic/ShaderProgram.cpp"
 	   
 	  "Graphic/Buffer/VAO.h" "Graphic/Buffer/VAO.cpp"
-	    "Graphic/Buffer/EBO.h" "Graphic/Buffer/VBO.h" "Graphic/Buffer/VBO.cpp" "Graphic/Buffer/EBO.cpp" "Graphic/Uniform.h" "Graphic/Uniform.cpp" "Graphic/Texture.h" "Graphic/Texture.cpp")
+	    "Graphic/Buffer/EBO.h" "Graphic/Buffer/VBO.h" "Graphic/Buffer/VBO.cpp" "Graphic/Buffer/EBO.cpp" "Graphic/Uniform.h" "Graphic/Uniform.cpp" "Graphic/Texture.h" "Graphic/Texture.cpp" "Graphic/Camera.h" "Graphic/Camera.cpp")
 
 target_include_directories(Graphic PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 

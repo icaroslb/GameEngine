@@ -47,6 +47,9 @@ namespace geb {
 		stbi_image_free(texture_data);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		_resolution.X() = img_width;
+		_resolution.Y() = img_height;
 	}
 
 	void Texture::bind() {
@@ -55,5 +58,9 @@ namespace geb {
 
 	void Texture::unbind() {
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	Vector2 Texture::GetResolution() {
+		return _resolution;
 	}
 };

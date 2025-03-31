@@ -6,7 +6,7 @@
 
 namespace geb {
 	Vector4::Vector4() {
-		std::fill_n(_data, 4, 0.0);
+		std::fill_n(_data, 4, 0.0f);
 	}
 
 	Vector4::Vector4(float x, float y, float z, float w) : _x(x), _y(y), _z(z), _w(w) {}
@@ -183,7 +183,25 @@ namespace geb {
 		return sqrt(result);
 	}
 
+	Vector4& Vector4::normalized() {
+		*this /= norm();
+
+		return *this;
+	}
+
 	std::ostream& operator <<(std::ostream& os, const Vector4& v) {
 		return os << "[ " << v._x << " " << v._y << " " << v._z << " " << v._w << " ]" << std::endl;
+	}
+
+	Vector4 operator -(const Vector4& v) {
+		Vector4 result;
+
+		_vector4_sub(result._data, v._data, result._data);
+
+		return result;
+	}
+
+	Vector4 operator +(const Vector4& v) {
+		return v;
 	}
 };

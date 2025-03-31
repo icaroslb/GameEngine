@@ -5,8 +5,8 @@
 
 #include "GameEngine.h"
 #include "Math/Vector4.h"
-#include "Math/Matrix4x4.h"
-#include "Math/TransformationMatrix4x4.h"
+#include "Math/Matrix4.h"
+#include "Math/TransformationMatrix4.h"
 #include "Math/Vector2.h"
 
 #include <vector>
@@ -24,56 +24,14 @@
 #include "Graphic/Buffer/EBO.h"
 #include "Graphic/Uniform.h"
 #include "Graphic/Texture.h"
+#include "Graphic/Camera.h"
 
 #include "Objects/ObjectTexture.h"
 
 #include <SDL3/SDL_main.h>
 
-const int vectors_size = 10000;
-const int qtd_loops = 10000;
-
 int main(int argc, char* argv[]) {
 	//SDL_SetMainReady();
-
-	geb::Vector2 v0_{ 5.0, 2.0 };
-	geb::Vector2 v1_{ 5.0, 2.0 };
-	geb::Vector2 v2_ = v0_ + v1_;
-	double dot_ = v0_.dot(v1_);
-
-	std::cout << dot_ << std::endl;
-
-	std::cout << v2_ << std::endl;
-
-	geb::Vector4 v0{ 5.0, 2.0, 3.0, 0.0 };
-	geb::Vector4 v1{ 5.0, 2.0, 3.0, 0.0 };
-	geb::Vector4 v2 = v0 - v1;
-	double dot = v0.dot(v1);
-
-	std::cout << dot << std::endl;
-
-	std::cout << v2 << std::endl;
-
-	geb::Matrix4x4 m0{
-		1.0f,  2.0f,  3.0f,  4.0f,
-		5.0f,  6.0f,  7.0f,  8.0f,
-		9.0f,  10.0f, 11.0f, 12.0f,
-		13.0f, 14.0f, 15.0f, 16.0f
-	};
-
-	geb::Matrix4x4 m1{
-		1.0f,  2.0f,  3.0f,  4.0f,
-		5.0f,  6.0f,  7.0f,  8.0f,
-		9.0f,  10.0f, 11.0f, 12.0f,
-		13.0f, 14.0f, 15.0f, 16.0f
-	};
-	geb::Matrix4x4 m2 = m0 * m1;
-
-	std::cout << m2 << std::endl;
-
-	geb::TransformationMatrix4x4 tm0;
-
-	std::cout << tm0 << std::endl;
-
 	geb::Sdl3App sdl_app(SDL_INIT_VIDEO | SDL_INIT_EVENTS, 4, 6);
 
 	sdl_app.CreateWindow("TESTE", 500, 500, SDL_WINDOW_OPENGL);
@@ -88,38 +46,99 @@ int main(int argc, char* argv[]) {
 
 	sdl_app.SwapWindow();
 
-	const float sqrt3 = static_cast<float>(sqrt(3.0));
+	const geb::Vector4 a000 = geb::Vector4(-2.0f, -2.0f, -2.0f, 1.0f);
+	const geb::Vector4 a100 = geb::Vector4(+2.0f, -2.0f, -2.0f, 1.0f);
+	const geb::Vector4 a010 = geb::Vector4(-2.0f, +2.0f, -2.0f, 1.0f);
+	const geb::Vector4 a110 = geb::Vector4(+2.0f, +2.0f, -2.0f, 1.0f);
 
-	/*geb::Vector4 vertices[] =
-	{
-		geb::Vector4(-0.5f , -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f), geb::Vector4(0.8f, 0.3f , 0.02f, 1.0f),
-		geb::Vector4(+0.5f , -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f), geb::Vector4(0.8f, 0.3f , 0.02f, 1.0f),
-		geb::Vector4(+0.0f , +0.5f * sqrt3 * 2.0f / 3.0f, 0.0f, 1.0f), geb::Vector4(1.0f, 0.6f , 0.32f, 1.0f),
-		geb::Vector4(-0.25f, +0.5f * sqrt3 / 6.0f       , 0.0f, 1.0f), geb::Vector4(0.9f, 0.45f, 0.17f, 1.0f),
-		geb::Vector4(+0.25f, +0.5f * sqrt3 / 6.0f       , 0.0f, 1.0f), geb::Vector4(0.9f, 0.45f, 0.17f, 1.0f),
-		geb::Vector4(+0.0f,  -0.5f * sqrt3 / 3.0f       , 0.0f, 1.0f), geb::Vector4(0.8f, 0.3f , 0.02f, 1.0f)
-	};*/
+	const geb::Vector4 a001 = geb::Vector4(-2.0f, -2.0f, +2.0f, 1.0f);
+	const geb::Vector4 a101 = geb::Vector4(+2.0f, -2.0f, +2.0f, 1.0f);
+	const geb::Vector4 a011 = geb::Vector4(-2.0f, +2.0f, +2.0f, 1.0f);
+	const geb::Vector4 a111 = geb::Vector4(+2.0f, +2.0f, +2.0f, 1.0f);
+
+	const geb::Vector4 c100 = geb::Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	const geb::Vector4 c010 = geb::Vector4(0.0f, 0.1f, 0.0f, 1.0f);
+	const geb::Vector4 c001 = geb::Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+	const geb::Vector4 c111 = geb::Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	const geb::Vector2 uv00 = geb::Vector2(0.0f, 0.0f);
+	const geb::Vector2 uv10 = geb::Vector2(1.0f, 0.0f);
+	const geb::Vector2 uv01 = geb::Vector2(0.0f, 1.0f);
+	const geb::Vector2 uv11 = geb::Vector2(1.0f, 1.0f);
 
 	geb::ObjectTexture vertices[] =
 	{
-		geb::ObjectTexture(geb::Vector4(-0.5f, -0.5f, 0.0f, 1.0f), geb::Vector4(1.0f, 0.0f, 0.0f, 1.0f), geb::Vector2(0.0f, 0.0f)),
-		geb::ObjectTexture(geb::Vector4(-0.5f, +0.5f, 0.0f, 1.0f), geb::Vector4(0.0f, 1.0f, 0.0f, 1.0f), geb::Vector2(0.0f, 1.0f)),
-		geb::ObjectTexture(geb::Vector4(+0.5f, +0.5f, 0.0f, 1.0f), geb::Vector4(0.0f, 0.0f, 1.0f, 1.0f), geb::Vector2(1.0f, 1.0f)),
-		geb::ObjectTexture(geb::Vector4(+0.5f, -0.5f, 0.0f, 1.0f), geb::Vector4(1.0f, 1.0f, 1.0f, 1.0f), geb::Vector2(1.0f, 0.0f))
+		geb::ObjectTexture(a000, c010, uv10),
+		geb::ObjectTexture(a110, c001, uv01),
+		geb::ObjectTexture(a100, c100, uv00),
+
+		geb::ObjectTexture(a000, c010, uv10),
+		geb::ObjectTexture(a010, c111, uv11),
+		geb::ObjectTexture(a110, c001, uv01),
+
+
+		geb::ObjectTexture(a001, c100, uv00),
+		geb::ObjectTexture(a101, c010, uv10),
+		geb::ObjectTexture(a111, c111, uv11),
+
+		geb::ObjectTexture(a001, c100, uv00),
+		geb::ObjectTexture(a111, c111, uv11),
+		geb::ObjectTexture(a011, c001, uv01),
+
+
+		geb::ObjectTexture(a101, c100, uv00),
+		geb::ObjectTexture(a100, c010, uv10),
+		geb::ObjectTexture(a110, c111, uv11),
+
+		geb::ObjectTexture(a101, c100, uv00),
+		geb::ObjectTexture(a110, c111, uv11),
+		geb::ObjectTexture(a111, c001, uv01),
+
+
+		geb::ObjectTexture(a001, c010, uv10),
+		geb::ObjectTexture(a010, c001, uv01),
+		geb::ObjectTexture(a000, c100, uv00),
+
+		geb::ObjectTexture(a001, c010, uv10),
+		geb::ObjectTexture(a011, c111, uv11),
+		geb::ObjectTexture(a010, c001, uv01),
+
+
+		geb::ObjectTexture(a010, c100, uv00),
+		geb::ObjectTexture(a111, c111, uv11),
+		geb::ObjectTexture(a110, c010, uv10),
+
+		geb::ObjectTexture(a010, c100, uv00),
+		geb::ObjectTexture(a011, c001, uv01),
+		geb::ObjectTexture(a111, c111, uv11),
+
+
+		geb::ObjectTexture(a000, c001, uv01),
+		geb::ObjectTexture(a101, c010, uv10),
+		geb::ObjectTexture(a001, c100, uv00),
+
+		geb::ObjectTexture(a000, c001, uv01),
+		geb::ObjectTexture(a100, c111, uv11),
+		geb::ObjectTexture(a101, c010, uv10),
 	};
 
 	unsigned int indices[] =
 	{
-		0, 2, 1,
-		0, 3, 2
+		0, 1, 2,
+		3, 4, 5,
+
+		6, 7, 8,
+		9, 10, 11,
+		
+		12, 13, 14
 	};
 
 	std::shared_ptr<geb::ShaderProgram> sp = geb::OpenGLApp::create_shader_program("Shader/simple_shader.vert", "Shader/simple_shader.frag");
 	geb::VAO vao{};
+
 	vao.bind();
 
 	geb::VBO vbo{ (float*)&vertices, sizeof(vertices) };
-
 	geb::EBO ebo{ indices, sizeof(indices) };
 
 	vao.link_vbo(&vbo, 0, geb::ObjectTexture::GetdataSize(0), geb::FLOAT, geb::ObjectTexture::GetSize(), geb::ObjectTexture::GetOffsets(0));
@@ -131,6 +150,10 @@ int main(int argc, char* argv[]) {
 
 	unsigned int scale_location = geb::Uniform::get_uniform_location(sp->GetId(), "scale");
 	unsigned int texture_location = geb::Uniform::get_uniform_location(sp->GetId(), "tex0");
+	unsigned int option_location = geb::Uniform::get_uniform_location(sp->GetId(), "option");
+	unsigned int resolution_location = geb::Uniform::get_uniform_location(sp->GetId(), "resolution");
+	unsigned int mat_view_location = geb::Uniform::get_uniform_location(sp->GetId(), "mat_view");
+	unsigned int mat_proj_location = geb::Uniform::get_uniform_location(sp->GetId(), "mat_proj");
 
 	geb::Texture texture;
 	texture.GenerateTexture(
@@ -138,25 +161,91 @@ int main(int argc, char* argv[]) {
 		geb::Filter::NEAREST, geb::Filter::NEAREST,
 		geb::TexRepeat::CLAMP_TO_BORDER, geb::TexRepeat::CLAMP_TO_BORDER, geb::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
 
+	int option = -1;
+
+	geb::Vector4 camera_position(6.0f, 6.0f, -6.0f, 1.0f);
+	geb::Vector4 look_at(0.0f, 0.0f, 0.0f, 1.0f);
+	geb::Vector4 up_position = camera_position + geb::Vector4(0.0f, 1.0f, 0.0f, 0.0f);
+
+	geb::Camera camera{ camera_position, look_at, up_position};
+
+	camera.GenerateProjection(geb::projection_types::perspective, 1.0f, -1.0f, 1.0f, -1.0f, 100.0f, 1.0f);
+
 	while (is_looping) {
 		while (SDL_PollEvent(&e)) {
-			if (e.type == SDL_EVENT_QUIT) {
+			if (e.type == SDL_EVENT_QUIT ||
+				(e.type == SDL_EVENT_KEY_UP && e.key.key == SDLK_ESCAPE)) {
 				is_looping = false;
 				break;
+			}
+
+			if (e.type == SDL_EVENT_KEY_UP) {
+				switch (e.key.key)
+				{
+				case SDLK_KP_0:
+				case SDLK_0:
+					option = 0;
+					break;
+				case SDLK_KP_1:
+				case SDLK_1:
+					option = 1;
+					break;
+				case SDLK_KP_2:
+				case SDLK_2:
+					option = 2;
+					break;
+				case SDLK_KP_3:
+				case SDLK_3:
+					option = 3;
+					break;
+				case SDLK_KP_4:
+				case SDLK_4:
+					option = 4;
+					break;
+				case SDLK_KP_5:
+				case SDLK_5:
+					option = 5;
+					break;
+				case SDLK_KP_6:
+				case SDLK_6:
+					option = 6;
+					break;
+				case SDLK_KP_7:
+				case SDLK_7:
+					option = 7;
+					break;
+				case SDLK_KP_8:
+				case SDLK_8:
+					option = 8;
+					break;
+				case SDLK_KP_9:
+				case SDLK_9:
+					option = 9;
+					break;
+				default:
+					option = -1;
+					break;
+				}
 			}
 		}
 
 		sp->use();
-		geb::Uniform::set_uniform_f(scale_location, 0.5f);
+		
 		geb::Uniform::set_uniform_i(texture_location, 0);
+		geb::Uniform::set_uniform_i(option_location, option);
+		geb::Uniform::set_uniform_vec2(resolution_location, 1, texture.GetResolution().data());
+		geb::Uniform::set_uniform_mat4(mat_view_location, 1, true, camera.GetMatrixView().data());
+		geb::Uniform::set_uniform_mat4(mat_proj_location, 1, true, camera.GetMatrixProjection().data());
 
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		vao.bind();
 
 		texture.bind();
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 15, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		sdl_app.SwapWindow();
 	}
