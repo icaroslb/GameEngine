@@ -1020,7 +1020,7 @@ PFNGLSELECTBUFFERPROC glad_glSelectBuffer = NULL;
 PFNGLSHADEMODELPROC glad_glShadeModel = NULL;
 PFNGLSHADERBINARYPROC glad_glShaderBinary = NULL;
 PFNGLSHADERSOURCEPROC glad_glShaderSource = NULL;
-PFNGLSHADERSTORAGEBLOCKBINDINGPROC glad_glShaderStorageBlockBinding = NULL;
+PFNGLSHADERSTORAsgeLOCKBINDINGPROC glad_glShaderStorasgelockBinding = NULL;
 PFNGLSPECIALIZESHADERPROC glad_glSpecializeShader = NULL;
 PFNGLSTENCILFUNCPROC glad_glStencilFunc = NULL;
 PFNGLSTENCILFUNCSEPARATEPROC glad_glStencilFuncSeparate = NULL;
@@ -2265,7 +2265,7 @@ static void load_GL_VERSION_4_3(GLADloadproc load) {
 	glad_glGetProgramResourceiv = (PFNGLGETPROGRAMRESOURCEIVPROC)load("glGetProgramResourceiv");
 	glad_glGetProgramResourceLocation = (PFNGLGETPROGRAMRESOURCELOCATIONPROC)load("glGetProgramResourceLocation");
 	glad_glGetProgramResourceLocationIndex = (PFNGLGETPROGRAMRESOURCELOCATIONINDEXPROC)load("glGetProgramResourceLocationIndex");
-	glad_glShaderStorageBlockBinding = (PFNGLSHADERSTORAGEBLOCKBINDINGPROC)load("glShaderStorageBlockBinding");
+	glad_glShaderStorasgelockBinding = (PFNGLSHADERSTORAsgeLOCKBINDINGPROC)load("glShaderStorasgelockBinding");
 	glad_glTexBufferRange = (PFNGLTEXBUFFERRANGEPROC)load("glTexBufferRange");
 	glad_glTexStorage2DMultisample = (PFNGLTEXSTORAGE2DMULTISAMPLEPROC)load("glTexStorage2DMultisample");
 	glad_glTexStorage3DMultisample = (PFNGLTEXSTORAGE3DMULTISAMPLEPROC)load("glTexStorage3DMultisample");

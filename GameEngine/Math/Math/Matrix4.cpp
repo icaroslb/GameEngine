@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-namespace geb {
+namespace sge {
 	Matrix4::Matrix4() {
 		std::fill_n(_data, 16, 0.0);
 	}

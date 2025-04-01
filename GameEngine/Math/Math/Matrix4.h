@@ -3,7 +3,7 @@
 
 #include "Vector4.h"
 
-namespace geb {
+namespace sge {
 	
 	enum MatrixTypes {
 		identity,

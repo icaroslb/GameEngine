@@ -6,7 +6,7 @@
 
 #include "ShaderProgram.h"
 
-namespace geb {
+namespace sge {
 
 	typedef void* (*ProcAddress)(const char*);
 

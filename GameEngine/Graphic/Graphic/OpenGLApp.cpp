@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace geb {
+namespace sge {
 
 	void OpenGLApp::init(void* (*proc)(const char*)) {
 		gladLoadGLLoader(proc);

@@ -5,7 +5,7 @@
 #include <memory>
 #include <SDL3/SDL.h>
 
-namespace geb {
+namespace sge {
 
 	class Sdl3App {
 	public:

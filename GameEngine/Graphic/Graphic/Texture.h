@@ -4,7 +4,7 @@
 #include <Math/Vector4.h>
 #include <Math/Vector2.h>
 
-namespace geb {
+namespace sge {
 	enum TexId {
 		TEXTURE0 = 0x84C0,
 		TEXTURE1 = 0x84C1,

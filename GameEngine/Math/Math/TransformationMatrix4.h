@@ -3,7 +3,7 @@
 
 #include "Matrix4.h"
 
-namespace geb {
+namespace sge {
 	/**
 	* Matrix4 Transformation
 	* Save the transformation and its inverse

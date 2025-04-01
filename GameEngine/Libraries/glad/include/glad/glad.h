@@ -4680,9 +4680,9 @@ GLAPI PFNGLGETPROGRAMRESOURCELOCATIONPROC glad_glGetProgramResourceLocation;
 typedef GLint (APIENTRYP PFNGLGETPROGRAMRESOURCELOCATIONINDEXPROC)(GLuint program, GLenum programInterface, const GLchar *name);
 GLAPI PFNGLGETPROGRAMRESOURCELOCATIONINDEXPROC glad_glGetProgramResourceLocationIndex;
 #define glGetProgramResourceLocationIndex glad_glGetProgramResourceLocationIndex
-typedef void (APIENTRYP PFNGLSHADERSTORAGEBLOCKBINDINGPROC)(GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding);
-GLAPI PFNGLSHADERSTORAGEBLOCKBINDINGPROC glad_glShaderStorageBlockBinding;
-#define glShaderStorageBlockBinding glad_glShaderStorageBlockBinding
+typedef void (APIENTRYP PFNGLSHADERSTORAsgeLOCKBINDINGPROC)(GLuint program, GLuint storasgelockIndex, GLuint storasgelockBinding);
+GLAPI PFNGLSHADERSTORAsgeLOCKBINDINGPROC glad_glShaderStorasgelockBinding;
+#define glShaderStorasgelockBinding glad_glShaderStorasgelockBinding
 typedef void (APIENTRYP PFNGLTEXBUFFERRANGEPROC)(GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size);
 GLAPI PFNGLTEXBUFFERRANGEPROC glad_glTexBufferRange;
 #define glTexBufferRange glad_glTexBufferRange

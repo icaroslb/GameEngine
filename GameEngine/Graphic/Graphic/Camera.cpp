@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 #include <iostream>
-namespace geb {
+namespace sge {
 	Camera::Camera(const Vector4& position, const Vector4& look_at, const Vector4& up_position)
 	: _mat_proj(MatrixTypes::identity) {
 		_k = (position - look_at).normalized();

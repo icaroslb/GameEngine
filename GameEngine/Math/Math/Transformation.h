@@ -3,7 +3,7 @@
 
 #include "TransformationMatrix4.h"
 
-namespace geb {
+namespace sge {
 
 	class Transformation {
 	public:

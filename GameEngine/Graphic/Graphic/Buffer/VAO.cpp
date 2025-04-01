@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 
 
-namespace geb {
+namespace sge {
 	VAO::VAO() {
 		glGenVertexArrays(1, &_id);
 	}

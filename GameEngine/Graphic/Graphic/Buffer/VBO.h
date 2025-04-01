@@ -1,15 +1,17 @@
 #ifndef GRAPHIC_BUFFER_VBO_H
 #define GRAPHIC_BUFFER_VBO_H
 
-namespace geb {
+namespace sge {
 
 	class VBO {
 	public:
-		VBO(const float* data, size_t lenght);
+		VBO();
 		~VBO();
 
 		VBO(const VBO&) = delete;
 		VBO& operator=(const VBO&) = delete;
+
+		void load(const float* data, size_t lenght);
 
 		void bind() const;
 		void unbind() const;

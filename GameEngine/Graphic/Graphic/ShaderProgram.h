@@ -1,7 +1,7 @@
 #ifndef GRAPHIC_SHADER_PROGRAM_H
 #define GRAPHIC_SHADER_PROGRAM_H
 
-namespace geb {
+namespace sge {
 
 	class ShaderProgram {
 	public:

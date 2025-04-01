@@ -6,7 +6,7 @@
 
 #include "VBO.h"
 
-namespace geb {
+namespace sge {
 	enum enum_type {
 		BOOLEAN = 0x8B56,
 		BYTE   = 0x1400,

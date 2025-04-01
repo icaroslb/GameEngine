@@ -4909,14 +4909,14 @@ static int stbi__create_png_image_raw(stbi__png* a, stbi_uc* raw, stbi__uint32 r
     return 1;
 }
 
-static int stbi__create_png_image(stbi__png* a, stbi_uc* image_data, stbi__uint32 image_data_len, int out_n, int depth, int color, int interlaced)
+static int stbi__create_png_image(stbi__png* a, stbi_uc* image_data, stbi__uint32 image_DATA_len, int out_n, int depth, int color, int interlaced)
 {
     int bytes = (depth == 16 ? 2 : 1);
     int out_bytes = out_n * bytes;
     stbi_uc* final;
     int p;
     if (!interlaced)
-        return stbi__create_png_image_raw(a, image_data, image_data_len, out_n, a->s->img_x, a->s->img_y, depth, color);
+        return stbi__create_png_image_raw(a, image_data, image_DATA_len, out_n, a->s->img_x, a->s->img_y, depth, color);
 
     // de-interlacing
     final = (stbi_uc*)stbi__malloc_mad3(a->s->img_x, a->s->img_y, out_bytes, 0);
@@ -4932,7 +4932,7 @@ static int stbi__create_png_image(stbi__png* a, stbi_uc* image_data, stbi__uint3
         y = (a->s->img_y - yorig[p] + yspc[p] - 1) / yspc[p];
         if (x && y) {
             stbi__uint32 img_len = ((((a->s->img_n * x * depth) + 7) >> 3) + 1) * y;
-            if (!stbi__create_png_image_raw(a, image_data, image_data_len, out_n, x, y, depth, color)) {
+            if (!stbi__create_png_image_raw(a, image_data, image_DATA_len, out_n, x, y, depth, color)) {
                 STBI_FREE(final);
                 return 0;
             }
@@ -4946,7 +4946,7 @@ static int stbi__create_png_image(stbi__png* a, stbi_uc* image_data, stbi__uint3
             }
             STBI_FREE(a->out);
             image_data += img_len;
-            image_data_len -= img_len;
+            image_DATA_len -= img_len;
         }
     }
     a->out = final;
@@ -5137,7 +5137,7 @@ static int stbi__parse_png_file(stbi__png* z, int scan, int req_comp)
     stbi_uc palette[1024], pal_img_n = 0;
     stbi_uc has_trans = 0, tc[3] = { 0 };
     stbi__uint16 tc16[3];
-    stbi__uint32 ioff = 0, idata_limit = 0, i, pal_len = 0;
+    stbi__uint32 ioff = 0, iDATA_limit = 0, i, pal_len = 0;
     int first = 1, k, interlace = 0, color = 0, is_iphone = 0;
     stbi__context* s = z->s;
 
@@ -5241,14 +5241,14 @@ static int stbi__parse_png_file(stbi__png* z, int scan, int req_comp)
             }
             if (c.length > (1u << 30)) return stbi__err("IDAT size limit", "IDAT section larger than 2^30 bytes");
             if ((int)(ioff + c.length) < (int)ioff) return 0;
-            if (ioff + c.length > idata_limit) {
-                stbi__uint32 idata_limit_old = idata_limit;
+            if (ioff + c.length > iDATA_limit) {
+                stbi__uint32 iDATA_limit_old = iDATA_limit;
                 stbi_uc* p;
-                if (idata_limit == 0) idata_limit = c.length > 4096 ? c.length : 4096;
-                while (ioff + c.length > idata_limit)
-                    idata_limit *= 2;
-                STBI_NOTUSED(idata_limit_old);
-                p = (stbi_uc*)STBI_REALLOC_SIZED(z->idata, idata_limit_old, idata_limit); if (p == NULL) return stbi__err("outofmem", "Out of memory");
+                if (iDATA_limit == 0) iDATA_limit = c.length > 4096 ? c.length : 4096;
+                while (ioff + c.length > iDATA_limit)
+                    iDATA_limit *= 2;
+                STBI_NOTUSED(iDATA_limit_old);
+                p = (stbi_uc*)STBI_REALLOC_SIZED(z->idata, iDATA_limit_old, iDATA_limit); if (p == NULL) return stbi__err("outofmem", "Out of memory");
                 z->idata = p;
             }
             if (!stbi__getn(s, z->idata + ioff, c.length)) return stbi__err("outofdata", "Corrupt PNG");
@@ -5635,7 +5635,7 @@ static void* stbi__bmp_load(stbi__context* s, int* x, int* y, int* comp, int req
         // the header ends or implies a large amount of extra data, reject the file as malformed
         int bytes_read_so_far = s->callback_already_read + (int)(s->img_buffer - s->img_buffer_original);
         int header_limit = 1024; // max we actually read is below 256 bytes currently.
-        int extra_data_limit = 256 * 4; // what ordinarily goes here is a palette; 256 entries*4 bytes is its max size.
+        int extra_DATA_limit = 256 * 4; // what ordinarily goes here is a palette; 256 entries*4 bytes is its max size.
         if (bytes_read_so_far <= 0 || bytes_read_so_far > header_limit) {
             return stbi__errpuc("bad header", "Corrupt BMP");
         }
@@ -5643,7 +5643,7 @@ static void* stbi__bmp_load(stbi__context* s, int* x, int* y, int* comp, int req
         // the first half of this test rejects offsets that are either too small positives, or
         // negative, and guarantees that info.offset >= bytes_read_so_far > 0. this in turn
         // ensures the number computed in the second half of the test can't overflow.
-        if (info.offset < bytes_read_so_far || info.offset - bytes_read_so_far > extra_data_limit) {
+        if (info.offset < bytes_read_so_far || info.offset - bytes_read_so_far > extra_DATA_limit) {
             return stbi__errpuc("bad offset", "Corrupt BMP");
         }
         else {

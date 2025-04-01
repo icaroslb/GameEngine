@@ -4,7 +4,7 @@
 #include <Math/Matrix4.h>
 #include <Math/Vector4.h>
 
-namespace geb {
+namespace sge {
 
 	enum projection_types {
 		ortho,

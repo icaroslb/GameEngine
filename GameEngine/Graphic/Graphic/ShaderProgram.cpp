@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <iostream>
 
-namespace geb {
+namespace sge {
 
 	ShaderProgram::ShaderProgram() : _initialized(false), _program_id(0) {}
 

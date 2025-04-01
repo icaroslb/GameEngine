@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <stb/stb_image.h>
 
-namespace geb {
+namespace sge {
 	Texture::Texture() {
 		// Generate the texture
 		glGenTextures(1, &_texture_id);

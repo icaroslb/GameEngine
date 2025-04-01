@@ -7,6 +7,7 @@ layout (location = 2) in vec2 aTex;
 out vec4 color;
 out vec2 tex_coord;
 
+uniform mat4 mat_model;
 uniform mat4 mat_view;
 uniform mat4 mat_proj;
 

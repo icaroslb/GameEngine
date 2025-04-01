@@ -3,7 +3,7 @@
 
 #include <ostream>
 
-namespace geb {
+namespace sge {
 	/**
 	* Vector 4
 	*/

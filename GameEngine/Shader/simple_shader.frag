@@ -123,7 +123,7 @@ void main()
 		default:
 			color_convolutioned = texture(tex0, tex_coord);
 	}
-	FragColor = color_convolutioned;
+	FragColor = color_convolutioned * color;
 
 	//FragColor = convolution(weights, tex_coord, tex0);// texture(tex0, tex_coord);// color; //vec4(0.8f, 0.3f, 0.02f, 1.0f);
 }

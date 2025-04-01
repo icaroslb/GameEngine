@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-namespace geb {
+namespace sge {
 	TransformationMatrix4 Transformation::Translation(float x, float y, float z) {
 		TransformationMatrix4 result;
 

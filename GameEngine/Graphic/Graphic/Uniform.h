@@ -1,6 +1,6 @@
 #ifndef GRAPHIC_UNIFORM_H
 #define GRAPHIC_UNIFORM_H
-namespace geb {
+namespace sge {
 
 	class Uniform {
 	public:

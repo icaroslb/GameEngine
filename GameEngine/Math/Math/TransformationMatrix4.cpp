@@ -1,6 +1,6 @@
 #include "TransformationMatrix4.h"
 
-namespace geb {
+namespace sge {
 
 	TransformationMatrix4::TransformationMatrix4()
 		: _transformation(MatrixTypes::identity)

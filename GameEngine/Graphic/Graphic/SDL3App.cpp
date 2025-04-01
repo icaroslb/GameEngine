@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace geb {
+namespace sge {
 	Sdl3App::Sdl3App(Uint32 flags, int major_version, int minor_version)
 		: _window(nullptr)
 		, _context() {

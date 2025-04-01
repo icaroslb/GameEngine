@@ -4,7 +4,7 @@
 #include <immintrin.h>
 #include <cstring>
 
-namespace geb {
+namespace sge {
 
 #if defined(__linux__)
 #define SAVE_ARRAY(dst_data, src_data, byte_size) memcpy(dst_data, src_data, byte_size)

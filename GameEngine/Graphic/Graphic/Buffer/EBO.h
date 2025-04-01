@@ -1,16 +1,17 @@
 #ifndef GRAPHIC_BUFFER_EBO_H
 #define GRAPHIC_BUFFER_EBO_H
 
-namespace geb {
+namespace sge {
 
 	class EBO {
 	public:
-		EBO(const unsigned int* data, size_t lenght);
+		EBO();
 		~EBO();
 
 		EBO(const EBO&) = delete;
 		EBO& operator=(const EBO&) = delete;
 
+		void load(const unsigned int* data, size_t lenght);
 		void bind() const;
 		void unbind() const;
 

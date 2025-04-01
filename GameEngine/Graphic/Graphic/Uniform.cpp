@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-namespace geb {
+namespace sge {
 	unsigned int Uniform::get_uniform_location(unsigned int shader_id, const char* uniform_name) {
 		return glGetUniformLocation(shader_id, uniform_name);
 	}

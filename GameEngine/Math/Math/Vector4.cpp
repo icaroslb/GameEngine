@@ -4,7 +4,7 @@
 #include <cmath>
 #include <algorithm>
 
-namespace geb {
+namespace sge {
 	Vector4::Vector4() {
 		std::fill_n(_data, 4, 0.0f);
 	}
